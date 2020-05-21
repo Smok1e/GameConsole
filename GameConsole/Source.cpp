@@ -1,18 +1,14 @@
-const int wWidth = 800;
-const int wHeight = 800;
+#pragma once
 
-const int OBJ_MAX = 100;
+#define TX_USE_SFML
 
-const int MAXLINE = 512;
-
-const int LINES = 30;
-
-//----------------------------------------------------------------
-
+#include "Config.h"
+#include <TXLib.h>
+#include "C:\Lib\ExtraUtilits\ExtraUtilits.h"
 #include <SFML\Graphics.hpp>
 #include <string.h>
-#include "C:\Lib\ExtraUtilits\ExtraUtilits.h"
 #include "LineBuffer.h"
+#include "WNDL.h"
 
 sf::Font * DefaultFont = nullptr;
 
@@ -26,6 +22,8 @@ const char * backgrounds [] = {
 	nullptr
 
 };
+
+#define RANDOMCOLOR sf::Color (eu::rnd (0, 255), eu::rnd (0, 255), eu::rnd (0, 255), eu::rnd (0, 255))
 
 //----------------------------------------------------------------
 
@@ -693,6 +691,7 @@ bool RectCollision (sf::IntRect rect1, sf::IntRect rect2);
 int main ()
 
 {
+
 	srand (time(0));
 
 	sf::Font font;
@@ -714,6 +713,32 @@ int main ()
 
 	ScrollBar scrollbar (console);
 
+	WindowManager manager;
+
+	manager.setWindowPtr (&window);
+
+	for (int n = 0; n < 100; n++)
+
+	{
+	
+		double width  = eu::rnd (10, 100);
+		double height = eu::rnd (10, 100);
+
+		double x = eu::rnd (0,  wWidth - width);
+		double y = eu::rnd (0, wHeight - height);
+
+		AbstractWindow * test = new AbstractWindow;
+
+		test -> setPosition (x,     y     );
+		test -> setSize     (width, height);
+		test -> setColor    (RANDOMCOLOR);
+
+		test -> setManager (&manager);
+
+		manager.addWindow (test);
+
+	}
+
 	while (window.isOpen ())
 
 	{
@@ -726,20 +751,22 @@ int main ()
 
 		{
 
-			if (event.type == sf::Event::Closed) console.print ("THERE IS NO EXIT!!!\n");
+			if (event.type == sf::Event::Closed) window.close (); //console.print ("THERE IS NO EXIT!!!\n");
 
-			ProcessScrollBarEvents (event, scrollbar);
-			ProcessGameConsoleEvents (event, console);
+			/*ProcessScrollBarEvents (event, scrollbar);
+			ProcessGameConsoleEvents (event, console);*/
 
 		}
 
 		if (sf::Keyboard::isKeyPressed (sf::Keyboard::Escape)) window.close ();
 
-		console.draw ();
+		/*console.draw ();
 
 		scrollbar.update ();
 
-		scrollbar.draw ();
+		scrollbar.draw ();*/
+
+		manager.drawWindows ();
 
 		window.display ();
 

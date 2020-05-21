@@ -139,9 +139,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="WNDL.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="LineBuffer.h" />
+    <ClInclude Include="StackTrace.h" />
+    <ClInclude Include="WNDL.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
